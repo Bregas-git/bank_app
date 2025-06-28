@@ -1,0 +1,55 @@
+@extends('layouts.app')
+
+@section('title', 'Payment Details')
+
+@section('content')
+<div class="text-warning text-center">
+    <i class="fa-solid fa-money-bill-transfer fa-5x mb-2"></i>
+    <h2 class="display-3 mb-4">Payment</h2>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>Payment Details</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Account ID</td>
+            <td>{{$loan->account_id}}</td>
+            {{-- <input type="hidden" name="account_id" value= ""> --}}
+        </tr>
+<form action="{{ route('payment.execute', $loan->id)}}" method="post">
+    @csrf
+    @method('PATCH')
+                <tr>
+                    <td>Terms Paid</td>
+                    <td>{{$input_term}} months</td>
+                    {{-- for loan table loan_term column --}}
+                    {{-- <input type="hidden" name="loan_term" value={{$term}}> --}}
+                </tr>
+                <tr>
+                    <td>Paid Amount Per Term:</td>
+                    <td>{{$loan->monthly_payment}}</td>
+                    {{-- for loan table loan_amount --}}
+                    {{-- <input type="hidden" name="loan_amount" value= {{$loanable}}> --}}
+                </tr>
+                <tr>
+                    <td>Total Amount Due:</td>
+                    <td>{{$amount_due = $loan->monthly_payment * $input_term}}</td>
+                    <input type="hidden" name="amount_due" value="{{$amount_due}}">
+                </tr>
+            </tbody>
+        </table>
+                    <p class="small fst-italic text-warning">Paid amount will be deducted to your loan amount after confirmation</p>
+            <div class="d-inline">
+                <label for="pay_amount" class="input-group-text">$</label>
+                <input type="number" name="pay_amount" id="pay_amount" min="{{$amount_due}}" class="form-control">
+                <button type="submit" class="btn btn-warning">Confirm</button>
+            </div>
+</form>
+
+
+@endsection
