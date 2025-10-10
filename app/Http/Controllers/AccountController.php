@@ -41,9 +41,7 @@ class AccountController extends Controller
 
         $this->account->balance = $request->balance;
         $this->account->user_id = Auth::user()->id;
-
         $this->account->save();
-
         return redirect()->route('account.index');
     }
 
