@@ -3,46 +3,60 @@
 @section('title', 'Create Account')
 
 @section('content')
-<div class="text-success text-center">
-    <i class="fa-solid fa-circle-dollar-to-slot fa-5x mb-2"></i>
-    <h2 class="mb-3">Deposit</h2>
-</div>
-<form action="{{ route('account.deposit.update')}}" method="post">
-    @csrf
-    @method('PATCH')
-
-    <div class="row mb-2">
-        <div class="col-3">
-            <inline>Account</inline>
-        </div>
-        <div class="col-7">
-            <div class="btn-group">
-
-
+    <div class="text-success text-center">
+        <i class="fa-solid fa-circle-dollar-to-slot fa-5x mb-2"></i>
+        <h2 class="mb-3">Deposit</h2>
+    </div>
+    <form action="{{ route('account.deposit.update') }}" method="post">
+        @csrf
+        @method('PATCH')
+        {{-- account select --}}
+        <div class="row mb-2">
+            <div class="col-3 text-end">
+                <span>Account</span>
+            </div>
+            <div class="col-7 ps-3">
+                <div class="btn-group">
                     @forelse ($all_accounts as $account)
-                        <input type="radio" name="account" id="{{$account->id}}" class="btn-check" value="{{$account->id}}" required>
-                        <label for="{{$account->id}}" class="btn btn-outline-success">{{$account->id}}</label>
-
+                        <input type="radio" name="account" id="{{ $account->id }}" class="btn-check"
+                            value="{{ $account->id }}" required>
+                        <label for="{{ $account->id }}" class="btn btn-outline-success">{{ $account->id }}</label>
                     @empty
-
                     @endforelse
+                </div>
             </div>
         </div>
-    </div>
-                    <div class="input-group col-8 mb-2">
-                        <span>Deposit Amount</span>
-                        <span class="input-group-text ms-2">$</span>
-                        <input type="number" name="balance" id="balance" class="form-control" placeholder="Enter your deposit amount here" min="1" autofocus>
-                    </div>
+        {{-- current amount --}}
+        {{-- <div class="row">
+            <div class="col-3 text-end">
+                <span>Current balance</span>
+            </div>
+            <div class="col-7 mb-7">
+                @if (the radio selection is set to the related id)
+                    {{$output_the_amount->from_DB}}
+                @endif
+            </div>
+        </div> --}}
+        {{-- deposit amount --}}
+        <div class="row">
+            <div class="col-3 text-end">
+                <span>Deposit Amount</span>
+            </div>
+            <div class="input-group col-7 mb-2 w-75">
+                <span class="input-group-text ms-2">$</span>
+                <input type="number" name="balance" id="balance" class="form-control"
+                    placeholder="Enter your deposit amount here" min="1" autofocus>
+            </div>
+        </div>
 
-                        @error('balance')
-                            <p class="text-danger small">{{ $message }}</p>
-                        @enderror
+        @error('balance')
+            <p class="text-danger small">{{ $message }}</p>
+        @enderror
 
-                    <div class="">
-                        <button class="btn btn-success me-1 w-100 mb-3">Deposit</button>
-                        <a href="{{ route('home')}}" class="btn btn-outilne secondary text-center">Cancel</a>
-                    </div>
-</form>
+        <div class="text-center">
+            <button class="btn btn-success me-1 w-100 mb-3">Deposit</button>
+            <a href="{{ route('home') }}" class="btn btn-outilne secondary text-center">Cancel</a>
+        </div>
+    </form>
 
 @endsection
