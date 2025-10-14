@@ -16,13 +16,13 @@
                 <span>Account</span>
             </div>
             <div class="col-7 ps-3">
-                <div class="btn-group">
+                <div class="btn-group radio-deselect">
                     @forelse ($all_accounts as $account)
                         <input type="radio" name="account" id="{{ $account->id }}" class="btn-check"
                             value="{{ $account->id }}" required>
                         <label for="{{ $account->id }}" class="btn btn-outline-success">{{ $account->id }}</label>
                     @empty
-                    <p class="text-secondary">No accounts available</p>
+                        <p class="text-secondary">No accounts available</p>
                     @endforelse
                 </div>
             </div>
@@ -33,7 +33,7 @@
                 <span>Current balance</span>
             </div>
             <div class="col-7 h5">
-                <span>$ <span id="balance-display" >--</span></span>
+                <span>$ <span id="balance-display">--</span></span>
             </div>
         </div>
         {{-- deposit amount --}}
@@ -59,30 +59,40 @@
     </form>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function(){
+        document.addEventListener('DOMContentLoaded', function() {
             const radios = document.querySelectorAll('input[name="account"]');
             const display = document.getElementById('balance-display');
 
             radios.forEach(radio => {
-                radio.addEventListener('change', function () {
+                radio.addEventListener('change', function() {
                     const accountId = this.value;
 
                     fetch(`/accounts/${accountId}/balance`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if(data.balance !== null){
-                            display.textContent = data.balance.toLocaleString('en-US')
-                        } else {
-                            display.textContent = 'No data';
-                        }
-                    })
-                    .catch(err => {
-                        console.error('Error fetching balance:', err);
-                        display.textContent = 'Error fetch';
-                    });
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.balance !== null) {
+                                display.textContent = data.balance.toLocaleString('en-US')
+                            } else {
+                                display.textContent = 'No data';
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Error fetching balance:', err);
+                            display.textContent = 'Error fetch';
+                        });
                 });
             });
         });
+
+
+        document.addEventListener('DOMContentLoaded',function(){
+            const radios = document.querySelectorAll('.radio-deselect input[type="radio"]');
+            radios.forEach(radio => {
+                radio.checked = false;
+                radio.defaultChecked = false;
+            });
+        });
+
     </script>
 
 @endsection

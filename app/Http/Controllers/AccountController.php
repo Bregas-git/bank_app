@@ -82,16 +82,16 @@ class AccountController extends Controller
 
         $request->validate([
             'account' => 'required',
-            'balance' => 'required|min:1|max:'. $account->balance
+            'balance' => 'required|numeric|min:1|max:'. $account->balance
         ],
-        ['balance.max' => 'your current balance is $'. $account->balance,
-         'balance.min' => 'cannot input negative or zero amount'
+        ['balance.max' => 'Max $'. $account->balance,
+         'balance.min' => 'cannot withdraw negative or zero amount'
         ]);
 
         $account->balance -= $request->balance;
         $account->save();
 
-        return redirect()->route('account.index');
+        return redirect()->route('account.index')->with('sucess','Withdrawal successfull');
     }
 
     // get balance

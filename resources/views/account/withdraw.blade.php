@@ -18,13 +18,15 @@
                     <p>Account</p>
                 </div>
                 <div class="col-8 ps-3">
-                    <div class="btn-group">
-
+                    <div class="btn-group radio-deselect">
                         @foreach ($all_accounts as $account)
-                            <input type="radio" name="account" id="{{ $account->id }}" class="btn-check"
-                                value="{{ $account->id }}">
-                            <label for="{{ $account->id }}" class="btn btn-outline-danger">{{ $account->id }}</label>
+                            <input type="radio" name="account" id="account-{{ $account->id }}" class="btn-check"
+                                value="{{ $account->id }}" required>
+                            <label for="account-{{ $account->id }}" class="btn btn-outline-danger">{{ $account->id }}</label>
                         @endforeach
+                        @empty('account')
+                            <p class="text-secondary small">No accounts available</p>
+                        @endempty
                     </div>
                 </div>
             </div>
@@ -34,7 +36,7 @@
                     <span>Current balance</span>
                 </div>
                 <div class="col-8 h5">
-                    <span >$ <span id="balance-display">--</span></span>
+                    <span>$ <span id="balance-display">--</span></span>
                 </div>
             </div>
 
@@ -47,11 +49,13 @@
                     <div class="input-group">
                         <span class="input-group-text ms-2">$</span>
                         <input type="number" name="balance" id="balance" class="form-control"
-                            placeholder="Enter your withdrawal amount here" min="1" max="">
+                            placeholder="Enter your withdrawal amount here" min="1" max="" required>
                     </div>
                 </div>
                 @error('balance')
+                <div class="row align-items-center">
                     <p class="text-danger small">{{ $message }}</p>
+                </div>
                 @enderror
 
                 <div>
@@ -83,7 +87,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const radios = document.querySelectorAll('input[name="account"]');
-            const display = document.getElementById('balance-display');
+            const balanceDisplay = document.getElementById('balance-display');
+            const balanceInput = document.getElementById('balance');
 
             radios.forEach(radio => {
                 radio.addEventListener('change', function() {
@@ -93,14 +98,19 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.balance !== null) {
-                                display.textContent = data.balance.toLocaleString('en-US')
+                                balanceDisplay.textContent = data.balance.toLocaleString('en-US');
+
+                                balanceInput.max = data.balance;
+
                             } else {
-                                display.textContent = 'No data';
+                                balanceInput.removeAttribute('max');
                             }
                         })
+
                         .catch(err => {
                             console.error('Error fetching balance:', err);
-                            display.textContent = 'Error fetch';
+                            balanceDisplay.textContent = 'Error fetching balance';
+                            balanceInput.removeAttribute('max');
                         });
                 });
             });
