@@ -22,21 +22,20 @@
                             value="{{ $account->id }}" required>
                         <label for="{{ $account->id }}" class="btn btn-outline-success">{{ $account->id }}</label>
                     @empty
+                    <p class="text-secondary">No accounts available</p>
                     @endforelse
                 </div>
             </div>
         </div>
         {{-- current amount --}}
-        {{-- <div class="row">
-            <div class="col-3 text-end">
+        <div class="row my-3 align-items-center">
+            <div class="col-3 text-end ">
                 <span>Current balance</span>
             </div>
-            <div class="col-7 mb-7">
-                @if (the radio selection is set to the related id)
-                    {{$output_the_amount->from_DB}}
-                @endif
+            <div class="col-7 h5">
+                <span>$ <span id="balance-display" >--</span></span>
             </div>
-        </div> --}}
+        </div>
         {{-- deposit amount --}}
         <div class="row">
             <div class="col-3 text-end">
@@ -58,5 +57,32 @@
             <a href="{{ route('home') }}" class="btn btn-outilne secondary text-center">Cancel</a>
         </div>
     </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const radios = document.querySelectorAll('input[name="account"]');
+            const display = document.getElementById('balance-display');
+
+            radios.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    const accountId = this.value;
+
+                    fetch(`/accounts/${accountId}/balance`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.balance !== null){
+                            display.textContent = data.balance.toLocaleString('en-US')
+                        } else {
+                            display.textContent = 'No data';
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error fetching balance:', err);
+                        display.textContent = 'Error fetch';
+                    });
+                });
+            });
+        });
+    </script>
 
 @endsection

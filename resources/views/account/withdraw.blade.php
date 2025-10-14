@@ -13,11 +13,11 @@
             @csrf
             @method('PATCH')
             {{-- account select row --}}
-            <div class="row mb-2 justify-content-center">
+            <div class="row mb-2 align-items-center">
                 <div class="col-4 text-end">
                     <p>Account</p>
                 </div>
-                <div class="col-8 ps-4">
+                <div class="col-8 ps-3">
                     <div class="btn-group">
 
                         @foreach ($all_accounts as $account)
@@ -28,8 +28,18 @@
                     </div>
                 </div>
             </div>
-            {{-- widthdraw amount row --}}
-            <div class="row justify-content-center">
+            {{-- current amount --}}
+            <div class="row my-3 align-items-center">
+                <div class="col-4 text-end">
+                    <span>Current balance</span>
+                </div>
+                <div class="col-8 h5">
+                    <span >$ <span id="balance-display">--</span></span>
+                </div>
+            </div>
+
+            {{-- widthdraw amount --}}
+            <div class="row align-items-center">
                 <div class="col-4 text-end">
                     <p>Withdrawal Amount</p>
                 </div>
@@ -69,5 +79,32 @@
     </div>
     </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const radios = document.querySelectorAll('input[name="account"]');
+            const display = document.getElementById('balance-display');
+
+            radios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const accountId = this.value;
+
+                    fetch(`/accounts/${accountId}/balance`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.balance !== null) {
+                                display.textContent = data.balance.toLocaleString('en-US')
+                            } else {
+                                display.textContent = 'No data';
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Error fetching balance:', err);
+                            display.textContent = 'Error fetch';
+                        });
+                });
+            });
+        });
+    </script>
 
 @endsection

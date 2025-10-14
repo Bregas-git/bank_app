@@ -94,5 +94,16 @@ class AccountController extends Controller
         return redirect()->route('account.index');
     }
 
+    // get balance
+    public function getBalance($id)
+    {
+        $account = Account::find($id);
+
+        if(!$account){
+            return response()->json(['balance' => null]);
+        }
+
+        return response()->json(['balance' => $account->balance]);
+    }
 
 }

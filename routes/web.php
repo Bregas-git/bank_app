@@ -21,9 +21,11 @@ Route::group(['middleware'=>'auth'], function(){
     Route::patch('/accounts/deposit/update',[AccountController::class,'accountDepositUpdate'])->name('account.deposit.update');
 
     //Withdraw
-    Route::get('accounts/withdraw', [AccountController::class, 'accountWithdraw'])->name('account.withdraw');
+    Route::get('/accounts/withdraw', [AccountController::class, 'accountWithdraw'])->name('account.withdraw');
     Route::patch('/accounts/withdraw/update',[AccountController::class,'accountWithdrawUpdate'])->name('account.withdraw.update');
 
+    // get balance
+    Route::get('/accounts/{id}/balance', [AccountController::class, 'getBalance'])->name('account.balance');
 
     //Loan
     Route::get('/loan',[LoanController::class,'index'])->name('loan.index');
