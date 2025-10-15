@@ -57,8 +57,7 @@
             <a href="{{ route('loan.apply') }}" class="btn btn-warning btn-sm w-50 fw-bold">Apply Loan</a>
         </div>
         <div class="text-center">
-            <a href="{{ route('loan.index') }}" class="link-danger link-underline-opacity-50"><i
-                    class="fa-solid fa-xmark text-danger"></i>Cancel</a>
+            <a href="{{ route('home') }}" class="link-secondary link-underline-opacity-50">Back</a>
         </div>
     </div>
 @endsection
