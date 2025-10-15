@@ -8,23 +8,23 @@
         <i class="fa-solid fa-hand-holding-dollar fa-5x mb-2"></i>
         <h2 class="display-3 mb-4">Loans</h2>
     </div>
+    <form action="{{ route('loan.save') }}" method="post">
+        @csrf
+        @method('PATCH')
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <td colspan="2" class="h5 mb-3">Confirm Your Loan</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Account Number</td>
+                    <td>{{ $account }}</td>
+                    <input type="hidden" name="account_id" value={{ $account }}>
+                </tr>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <td>Loan Details</td>
-                <td></td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Account Number</td>
-                <td>{{ $account }}</td>
-                <input type="hidden" name="account_id" value={{ $account }}>
-            </tr>
-            <form action="{{ route('loan.save') }}" method="post">
-                @csrf
-                @method('PATCH')
                 <tr>
                     <td>Loan Term</td>
                     <td>{{ $term }} months</td>
@@ -81,11 +81,22 @@
                     <input type="hidden" name="monthly_payment" value={{ $monthly }}>
 
                 </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <button type="submit" class="btn btn-warning w-100">Loan</button>
+        <div class="row align-items-center">
+            {{-- back feature WIP : method unsupported --}}
+            {{-- <div class="col-4">
+                <a href="{{ route('loan.term') }}" class="link-secondary link-underline-opacity-50"><i
+                        class="fa-solid fa-chevron-left text-secondary"></i> back</a>
+            </div> --}}
+            <div class="col-6 text-center">
+                <a href="{{ route('loan.index') }}" class="link-danger link-underline-opacity-50"><i
+                        class="fa-solid fa-xmark text-danger"></i> Cancel</a>
+            </div>
+            <div class="col-6">
+                <button type="submit" class="btn btn-warning  btn-sm w-auto text-center float-end">Confirm Loan <i class="fa-solid fa-check"></i></button>
+            </div>
+        </div>
     </form>
-
-
 @endsection

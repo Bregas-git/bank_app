@@ -28,7 +28,7 @@
         <nav class="navbar navbar-expand-md navbar-dark text-light bg-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <h1 class="h5 mb-0">{{ config('app.name') }}</h1>
+                    <h1 class="h5 mb-0"><i class="fa-solid fa-vault"></i> {{ config('app.name') }}</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
