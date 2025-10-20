@@ -97,7 +97,9 @@
                     .then(data => {
                         if (data.balance !== null) {
                             balanceDisplay.textContent = data.balance.toLocaleString(
-                                'en-US');
+                                'en-US', {
+                                    maximumFractionDigits: 2
+                                });
 
                             balanceInput.max = data.balance;
 

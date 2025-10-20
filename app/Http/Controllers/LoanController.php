@@ -30,7 +30,7 @@ class LoanController extends Controller
     }
 
     public function applyLoan()
-    {
+    {//this is the apply_acc_select page
         $all_accounts = $this->account->get();
 
         return view('loan.apply_acc_select')
@@ -38,7 +38,8 @@ class LoanController extends Controller
     }
 
     public function applyLoanTerm(Request $request)
-    {
+    {   //this is the apply_term_select page
+        //this is where the account id is being temporarily recorded
         $request->validate([
             'account' => 'required'
         ]);
@@ -53,7 +54,7 @@ class LoanController extends Controller
     }
 
     public function applyLoanCalculate(Request $request)
-    {
+    { //this is to go to the loan_details page
         $request->validate([
             'account' => 'required',
             'balance' => 'required',
@@ -85,7 +86,7 @@ class LoanController extends Controller
     }
 
     public function executeLoan(Request $request)
-    {
+    {//when the button is pressed the loan will be stored
         // 1st identify and update the new balance
         $id = $request->account;
         $account = $this->account->findOrFail($id);

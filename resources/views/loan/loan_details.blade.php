@@ -33,7 +33,7 @@
                 </tr>
                 <tr>
                     <td>Loan Amount</td>
-                    <td>{{ $loanable }}</td>
+                    <td>$ {{ number_format($loanable, 2, '.', ',' )}}</td>
                     {{-- for loan table loan_amount --}}
                     <input type="hidden" name="loan_amount" value={{ $loanable }}>
                 </tr>
@@ -59,17 +59,17 @@
                     <td>Total Amount</td>
                     <td>
                         @if ($term == 3)
-                            {{ $total_loan = $loanable + $loanable * 0.02 }}
+                            $ {{ number_format($total_loan = $loanable + $loanable * 0.02, 2,'.', ',') }}
                         @elseif ($term == 6)
-                            {{ $total_loan = $loanable + $loanable * 0.05 }}
+                            $ {{ number_format($total_loan = $loanable + $loanable * 0.05, 2,'.', ',') }}
                         @elseif ($term == 12)
-                            {{ $total_loan = $loanable + $loanable * 0.07 }}
+                            $ {{ number_format($total_loan = $loanable + $loanable * 0.07, 2,'.', ',') }}
                         @endif
                     </td>
                 </tr>
                 <tr>
                     <td>Monthly payment</td>
-                    <td>{{ $monthly = $total_loan / $term }}</td>
+                    <td>$ {{ number_format($monthly = $total_loan / $term, 2, '.', ',' )}}</td>
                     <input type="hidden" name="account" value={{ $account }}>
 
                     {{-- loan & account table --}}
@@ -78,7 +78,7 @@
                     <input type="hidden" name="total_loan" value={{ $total_loan }}>
 
                     {{-- loan table monthly_payment column --}}
-                    <input type="hidden" name="monthly_payment" value={{ $monthly }}>
+                    <input type="hidden" name="monthly_payment" value={{ $monthly = $total_loan / $term }}>
 
                 </tr>
             </tbody>

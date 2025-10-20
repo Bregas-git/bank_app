@@ -24,7 +24,7 @@
                     <h4>Savings account</h4>
                     <p>ID: {{ $account->id }}</p>
                     <p>Name: {{ Auth::user()->name }}</p>
-                    <p class="text-end h3">$ {{ $account->balance }}</p>
+                    <p class="text-end h3">$ {{ number_format($account->balance, 2,'.', ',') }}</p>
                     <p class="text-end">Available balance</p>
                 </div>
             @empty

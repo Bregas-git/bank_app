@@ -22,10 +22,10 @@
             @forelse ($user_accounts as $account)
             <tr>
                 <td>{{$account->id}}</td>
-                <td>$ {{$account->balance}}</td>
+                <td>$ {{ number_format($account->balance, 2, '.', ',')}}</td>
 
                 @if ($account->loan->total_amount ?? 'none')
-                    <td class="text-success">$ {{$account->loan->total_amount ?? '0'}}</td>
+                    <td class="text-success">$ {{ number_format($account->loan->total_amount ?? '0', 2, '.', ',') }}</td>
 
                 @elseif($account->loan->total_amount == null)
                     <td class="text-success">$ 0</td>

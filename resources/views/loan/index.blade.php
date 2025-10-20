@@ -22,7 +22,7 @@
                 @forelse ($all_accounts as $account)
                     <tr>
                         <td>{{ $account->id }}</td>
-                        <td>{{ $account->balance }}</td>
+                        <td>{{ number_format($account->balance, 2, '.', ',') }}</td>
 
                         @if ($account->loan->loan_amount ?? 'none')
                             <td class="text-success">$ {{ $account->loan->loan_amount ?? '0' }}</td>

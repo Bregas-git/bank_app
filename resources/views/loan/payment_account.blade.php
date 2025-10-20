@@ -21,7 +21,7 @@
                 @if ($loan->account->user_id === Auth::user()->id)
                     @if ($loan->total_amount)
                     <option value="{{$loan->id}}">
-                        Account: {{$loan->account_id}} - $ {{$loan->total_amount}} [ACTIVE LOAN]
+                        Account: {{$loan->account_id}} - $ {{number_format($loan->total_amount, 2, '.', ',')}} [ACTIVE LOAN]
                     </option>
 
                     @elseif ($loan->total_amount === null ?? 'none')

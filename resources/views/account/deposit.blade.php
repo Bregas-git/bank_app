@@ -71,7 +71,9 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.balance !== null) {
-                                display.textContent = data.balance.toLocaleString('en-US')
+                                display.textContent = data.balance.toLocaleString('en-US', {
+                                    maximumFractionDigits: 2,
+                                })
                             } else {
                                 display.textContent = 'No data';
                             }
