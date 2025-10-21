@@ -18,13 +18,17 @@
                     <option value="" class="text-secondary">-</option>
                     @forelse ($all_accounts as $account)
                         @if ($account->user_id === Auth::user()->id)
-                            @if ($account->balance >= 10000)
+                            @if ($account->balance >= 10000 && $account->loan->loan_amount === null)
                                 <option value={{ $id = $account->id }}>
-                                    Account: {{ $account->id }} - $ {{ $account->balance }}
+                                    Account: {{ $account->id }} - $ {{ number_format($account->balance, 2, '.', ',') }}
                                 </option>
                             @elseif($account->balance <= 10000)
                                 <option value="" disabled class="text-secondary">
-                                    Account: {{ $account->id }} - $ {{ $account->balance }} - NOT ELIGIBLE
+                                    Account: {{ $account->id }} - $ {{ number_format($account->balance, 2, '.', ',') }} - NOT ELIGIBLE
+                                </option>
+                            @elseif( $account->loan->loan_amount > 1 )
+                                <option value="" disabled class="text-danger">
+                                    Account: {{ $account->id }} - $ {{ number_format($account->balance, 2, '.', ',') }} - ACTIVE LOAN, Settle first
                                 </option>
                             @endif
                         @endif
@@ -38,7 +42,8 @@
                                 class="fa-solid fa-xmark text-danger"></i> Cancel</a>
                     </div>
                     <div class="col-6">
-                        <button type="submit" class="btn btn-warning btn-sm w-auto text-center float-end">Next <i class="fa-solid fa-chevron-right"></i></button>
+                        <button type="submit" class="btn btn-warning btn-sm w-auto text-center float-end"
+                            id="next-btn">Next <i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                 </div>
 
@@ -46,5 +51,19 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const account = document.getElementById('account');
+            const nextBtn = document.getElementById('next-btn');
+
+            selection.addEventListener('change', function() {
+                if (account.value !== '') {
+                    nextBtn.disabled = false;
+                } else {
+                    nextBtn.disabled = true;
+                }
+            })
+        });
+    </script>
 
 @endsection

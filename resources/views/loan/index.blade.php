@@ -40,24 +40,30 @@
                 </tr>
             </tbody>
         </table>
-
-        @if ($account->loan?->loan_amount > 1)
-            <div class="mt-4 text-danger text-center">
-                <i class="fa-solid fa-triangle-exclamation fa-5x"></i>
-                <h4>You have an active loan, please settle your loan before applying for new one</h4>
-            </div>
-        @else
-            <div class="mt-4 text-secondary text-center">
-                <h5>you have no active loan</h5>
-                <p>lets keep it that way</p>
-            </div>
-        @endif
-
-        <div class="text-center mb-3">
-            <a href="{{ route('loan.apply') }}" class="btn btn-warning btn-sm w-50 fw-bold">Apply Loan</a>
-        </div>
-        <div class="text-center">
-            <a href="{{ route('home') }}" class="link-secondary link-underline-opacity-50">Back</a>
-        </div>
     </div>
+    @if ($loans > 1)
+        <div class="my-3">
+            <div class="row">
+                <div class="col-4 text-danger text-end">
+                    <i class="fa-solid fa-triangle-exclamation fa-5x"></i>
+                </div>
+                <div class="col-6 text-danger">
+                    <h5>You have an active loan, please settle your loan before applying for new one</h5>
+                </div>
+            </div>
+        </div>
+    @else
+        <div class="mt-4 text-secondary text-center">
+            <h5>you have no active loan</h5>
+            <p>lets keep it that way</p>
+        </div>
+    @endif
+
+    <div class="text-center mb-3">
+        <a href="{{ route('loan.apply') }}" class="btn btn-warning btn-sm w-50 fw-bold">Apply Loan</a>
+    </div>
+    <div class="text-center">
+        <a href="{{ route('home') }}" class="link-secondary link-underline-opacity-50">Back</a>
+    </div>
+
 @endsection

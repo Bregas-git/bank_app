@@ -32,13 +32,13 @@
                 </tr>
                 <tr>
                     <td>Paid Amount Per Term:</td>
-                    <td>{{ number_format($loan->monthly_payment, 2, '.', ',') }}</td>
+                    <td>$ {{ number_format($loan->monthly_payment, 2, '.', ',') }}</td>
                     {{-- for loan table loan_amount --}}
                     {{-- <input type="hidden" name="loan_amount" value= {{$loanable}}> --}}
                 </tr>
                 <tr>
                     <td>Total Amount Due:</td>
-                    <td>{{ number_format($amount_due = $loan->monthly_payment * $input_term, 2, '.', ',') }}</td>
+                    <td>$ {{ number_format($amount_due = $loan->monthly_payment * $input_term, 2, '.', ',') }}</td>
                     <input type="hidden" name="amount_due" value="{{ $amount_due }}">
                 </tr>
         </tbody>
@@ -46,11 +46,11 @@
     <p class="small fst-italic text-warning">Paid amount will be deducted to your loan amount after confirmation</p>
     <div class="input-group">
         <span for="pay_amount" class="input-group-text" id="pay_amount">$</span>
-        <input type="number" name="pay_amount" id="pay_amount" min="{{ $amount_due }}" class="form-control">
+        <input type="number" name="pay_amount" id="pay_amount" min="0" class="form-control" required>
     </div>
     <div class="row my-3">
         <div class="col">
-            <a href="{{ route('loan.index') }}"> cancel </a>
+            <a href="{{ route('payment') }}" class="link-secondary"> cancel </a>
         </div>
         <div class="col-2">
             <button type="submit" class="btn btn-warning">Confirm</button>

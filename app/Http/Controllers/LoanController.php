@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class LoanController extends Controller
 {
@@ -24,9 +25,11 @@ class LoanController extends Controller
     public function index()
     {
         $all_accounts = $this->account->get();
+        $loans = $this->loan->get()->pluck('loan_amount')->random();
 
         return view('loan.index')
-            ->with('all_accounts', $all_accounts);
+            ->with('all_accounts', $all_accounts)
+            ->with('loans', $loans);
     }
 
     public function applyLoan()
@@ -131,7 +134,11 @@ class LoanController extends Controller
 
     //to access payment term page
     public function paymentTerm(Request $request)
-    {
+    {   
+        $request->validate([
+            'loan_id' => 'required'
+        ]);
+
         $loan_id = $request->loan_id;
 
         $selected_loan = $this->loan->findOrFail($loan_id);
@@ -145,7 +152,7 @@ class LoanController extends Controller
     public function paymentDetails(Request $request, $id)
     {
         $request->validate([
-            'term' => 'required|integer'
+            'term' => 'required|integer|min:1|'
         ]);
 
         $input_term = $request->term;
@@ -163,6 +170,7 @@ class LoanController extends Controller
         $amount_due = $request->amount_due;
 
         $loan = $this->loan->findOrFail($id);
+        $account = $this->account->findOrFail($loan->account_id);
 
         // if pay is greater than or equal with total loan amount
         if($pay_amount >= $amount_due){
@@ -171,6 +179,9 @@ class LoanController extends Controller
 
             $loan->total_amount = $loan->total_amount - $pay_amount;
             $loan->save();
+
+            $balance = $account->balance - $pay_amount;
+            $account->save();
 
             return view('loan.payment_change')
             ->with('change', $change);

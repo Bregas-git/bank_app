@@ -32,7 +32,7 @@
                 @endif
 
 
-                @if ($account->loan)
+                @if ($account->loan?->total_amount >= 1 )
                     <td class="text-danger">ACTIVE LOAN</td>
 
                 @elseif($account->balance <= 15000)

@@ -14,12 +14,12 @@
     <div class="col-8">
         <form action="{{ route('payment.term') }}" method="post">
         @csrf
-            <select name="loan_id" id="loan_id" class="form-select mb-3" >
+            <select name="loan_id" id="loan_id" class="form-select mb-3" required >
                 <option value="" class="text-secondary">-</option>
                 @forelse ($all_loan as $loan)
 
                 @if ($loan->account->user_id === Auth::user()->id)
-                    @if ($loan->total_amount)
+                    @if ($loan->total_amount >= 0)
                     <option value="{{$loan->id}}">
                         Account: {{$loan->account_id}} - $ {{number_format($loan->total_amount, 2, '.', ',')}} [ACTIVE LOAN]
                     </option>

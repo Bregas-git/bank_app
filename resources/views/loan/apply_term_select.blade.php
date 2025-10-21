@@ -7,12 +7,12 @@
         <i class="fa-solid fa-hand-holding-dollar fa-5x mb-2"></i>
         <h2 class="display-3 mb-4">Loans</h2>
     </div>
-    <div class="row justify-content-center">
-        <div class="col-auto">
-            <h3 class="h5">Account No : {{ $id }}</h3>
+    <div class="row text-center text-secondary">
+        <div class="col-12">
+            <h3 class="h5">Account No : <b class="text-light">{{ $id }}</b></h3>
         </div>
-        <div class="col-auto">
-            <h3 class="h5">Balance : $ {{ $balance->balance }}</h3>
+        <div class="col-12">
+            <h3 class="h5">Balance : <b class="text-light">$ {{ number_format($balance->balance, 2, ',', '.') }}</b></h3>
         </div>
     </div>
 
